@@ -217,7 +217,7 @@ class ProductService {
           id: "1",
           name: "Rice",
           price: 200,
-          imageUrl: "assets/banana.png",
+          imageUrl: "assets/rice.png",
         ),
         GroceriesModel(
           id: "2",

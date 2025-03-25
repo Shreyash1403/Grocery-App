@@ -1,17 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grocery_app/views/login_screen.dart';
+import 'package:grocery_app/views/screens/home_screen.dart';
+import 'package:grocery_app/views/screens/signup_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController _nameController = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -38,7 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Signup",
+                  "Login",
                   style: GoogleFonts.dmSans(
                     fontSize: 26,
                     color: Color.fromRGBO(24, 23, 37, 1),
@@ -46,35 +46,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
                 Text(
-                  "Create a new account",
+                  "Enter your email and password",
                   style: GoogleFonts.dmSans(
                     fontSize: 16,
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     height: 1,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: "Full Name",
-                    labelStyle: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade400,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(83, 177, 117, 1),
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -129,12 +106,15 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      String name = _nameController.text;
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return HomeScreen();
+                      }));
+
                       String email = _emailController.text;
                       String password = _passwordController.text;
 
                       // Example of handling the form submission
-                      print("Name: $name");
                       print("Email: $email");
                       print("Password: $password");
                     },
@@ -147,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     child: Text(
-                      "Sign Up",
+                      "Log In",
                       style: GoogleFonts.dmSans(
                         fontSize: 18,
                         color: Colors.white,
@@ -161,9 +141,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Center(
                   child: Text.rich(TextSpan(children: [
-                    TextSpan(text: "Already have an account?"),
+                    TextSpan(text: "Don't have an account?"),
                     TextSpan(
-                      text: "Login",
+                      text: "Signup",
                       style: TextStyle(
                         fontSize: 16,
                         color: Color.fromRGBO(83, 177, 117, 1),
@@ -173,9 +153,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         ..onTap = () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return LoginScreen();
+                            return SignupScreen();
                           }));
-                          print("Login clicked!");
+                          print("Signup clicked!");
                         },
                     ),
                   ])),

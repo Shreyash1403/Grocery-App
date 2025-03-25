@@ -14,18 +14,19 @@ class ProductSection extends StatefulWidget {
 
 class _ProductSectionState extends State<ProductSection> {
   @override
-  void initState() {
-    super.initState();
-    // Fetch products when the widget initializes
-    Future.microtask(() =>
-        Provider.of<ProductViewModel>(context, listen: false).loadProducts());
-  }
+  // void initState() {
+  //   super.initState();
+  //   // Fetch products when the widget initializes
+  //   Future.microtask(() =>
+  //       Provider.of<ProductViewModel>(context, listen: false).loadProducts());
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductViewModel>(
       builder: (context, productViewModel, child) {
         if (productViewModel.isLoading) {
+          productViewModel.loadProducts();
           return const Center(child: CircularProgressIndicator());
         } else if (productViewModel.products.isEmpty) {
           return const Center(child: Text("No products available"));
