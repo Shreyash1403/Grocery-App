@@ -14,7 +14,6 @@ class ProductService {
   final CollectionReference _groceriesCollection =
       FirebaseFirestore.instance.collection("groceries");
 
-  /// Add hardcoded products to Firestore
   Future<void> addProducts() async {
     List<ProductModel> hardcodedProducts = [
       ProductModel(
