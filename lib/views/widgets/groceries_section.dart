@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/models/groceries_model.dart';
 import 'package:grocery_app/view_model/product_view_model.dart';
+import 'package:grocery_app/views/screens/detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class GroceriesSection extends StatelessWidget {
+  const GroceriesSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductViewModel>(
@@ -15,9 +18,9 @@ class GroceriesSection extends StatelessWidget {
         }
 
         return SizedBox(
-          height: 250, // Fixed height
+          height: 250,
           child: ListView.builder(
-            scrollDirection: Axis.horizontal, // Horizontal scrolling
+            scrollDirection: Axis.horizontal,
             itemCount: productViewModel.groceries.length,
             itemBuilder: (context, index) {
               final grocery = productViewModel.groceries[index];
@@ -54,12 +57,26 @@ class GroceryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Image.asset(
-              grocery.imageUrl,
-              height: 70,
-              width: 100,
-              fit: BoxFit.contain,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProductDetailScreen(
+                      product: grocery,
+                    );
+                  },
+                ),
+              );
+            },
+            child: Center(
+              child: Image.asset(
+                grocery.imageUrl,
+                height: 70,
+                width: 100,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(height: 25),
@@ -96,9 +113,7 @@ class GroceryCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.green),
-                  onPressed: () {
-                    // TODO: Implement add-to-cart functionality
-                  },
+                  onPressed: () {},
                 ),
               ),
             ],

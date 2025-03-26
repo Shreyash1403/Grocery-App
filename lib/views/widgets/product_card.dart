@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/models/product_model.dart';
+import 'package:grocery_app/views/screens/detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -25,9 +26,23 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Image.asset(product.imageUrl,
-                height: 70, width: 100, fit: BoxFit.cover),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProductDetailScreen(
+                      product: product,
+                    );
+                  },
+                ),
+              );
+            },
+            child: Center(
+              child: Image.asset(product.imageUrl,
+                  height: 70, width: 100, fit: BoxFit.cover),
+            ),
           ),
           SizedBox(height: 25),
           Text(

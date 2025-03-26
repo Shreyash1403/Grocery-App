@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/models/best_selling_model.dart';
 import 'package:grocery_app/view_model/product_view_model.dart';
+import 'package:grocery_app/views/screens/detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class BestSellingSection extends StatelessWidget {
@@ -27,7 +28,7 @@ class BestSellingSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final bestSellingProduct =
                       productViewModel.bestSelling[index];
-                  return ProductCard(bestSellingProduct: bestSellingProduct);
+                  return ProductsCard(bestSellingProduct: bestSellingProduct);
                 },
               );
             },
@@ -38,10 +39,10 @@ class BestSellingSection extends StatelessWidget {
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductsCard extends StatelessWidget {
   final BestSellingModel bestSellingProduct;
 
-  const ProductCard({super.key, required this.bestSellingProduct});
+  const ProductsCard({super.key, required this.bestSellingProduct});
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +61,24 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Image.asset(
-              bestSellingProduct.imageUrl,
-              height: 70,
-              width: 100,
-              fit: BoxFit.contain,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProductDetailScreen(product: bestSellingProduct);
+                  },
+                ),
+              );
+            },
+            child: Center(
+              child: Image.asset(
+                bestSellingProduct.imageUrl,
+                height: 70,
+                width: 100,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(height: 25),
@@ -105,9 +118,7 @@ class ProductCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.green),
-                  onPressed: () {
-                    // TODO: Implement add-to-cart functionality
-                  },
+                  onPressed: () {},
                 ),
               ),
             ],

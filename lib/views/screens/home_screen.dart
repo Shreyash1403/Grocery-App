@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildShopScreen() {
     return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 27),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 25),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -126,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Search Bar
               TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
@@ -172,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 items: List.generate(3, (index) {
-                  // Repeat the banner 5 times
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
@@ -233,7 +231,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 18,
               ),
 
-              // Exclusive Offers Section
               ProductSection(),
 
               const SizedBox(
@@ -336,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              // Groceries Section
+
               GroceriesSection(),
             ],
           ),
