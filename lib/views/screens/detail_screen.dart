@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:grocery_app/models/product_model.dart';
+// import 'package:grocery_app/models/product_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final dynamic product;

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/views/screens/beverage_screen.dart';
+import 'package:grocery_app/views/screens/dairy_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
@@ -22,6 +24,15 @@ class ExploreScreen extends StatelessWidget {
     Color.fromRGBO(253, 229, 152, 0.25),
     Color.fromRGBO(183, 223, 245, 0.25),
   ];
+
+  final Map<String, Widget> categoryScreens = {
+    // 'Fresh Fruits & Vegetable': FreshFruitsScreen(),
+    // 'Cooking Oil & Ghee': CookingOilScreen(),
+    // 'Meat & Fish': MeatScreen(),
+    // 'Bakery & Snacks': BakeryScreen(),
+    'Dairy & Eggs': DairyScreen(),
+    'Beverages': BeverageScreen(), // <- Your existing screen
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +69,20 @@ class ExploreScreen extends StatelessWidget {
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
                   return CategoryCard(
-                    title: categories[index]['title']!,
-                    image: categories[index]['image']!,
-                    backgroundColor: colorList[index % colorList.length],
-                    index: index,
-                  );
+                      title: categories[index]['title']!,
+                      image: categories[index]['image']!,
+                      backgroundColor: colorList[index % colorList.length],
+                      index: index,
+                      onTap: () {
+                        final selectedTitle = categories[index]['title'];
+                        final screen = categoryScreens[selectedTitle];
+                        if (screen != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => screen),
+                          );
+                        }
+                      });
                 },
               ),
             ),
@@ -78,6 +98,7 @@ class CategoryCard extends StatelessWidget {
   final String image;
   final Color backgroundColor;
   final int index;
+  final VoidCallback onTap;
 
   CategoryCard({
     super.key,
@@ -85,6 +106,7 @@ class CategoryCard extends StatelessWidget {
     required this.image,
     required this.backgroundColor,
     required this.index,
+    required this.onTap,
   });
 
   final List<Color> colorBorder = [
@@ -98,24 +120,29 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorBorder[index % colorBorder.length]),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(image, height: 80),
-          SizedBox(height: 8),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: colorBorder[index % colorBorder.length]),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(image, height: 80),
+            SizedBox(height: 8),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }
