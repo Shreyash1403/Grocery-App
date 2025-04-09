@@ -21,7 +21,6 @@ class _BeverageScreenState extends State<BeverageScreen> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     final beverageProvider = Provider.of<BeveragesViewModel>(context);
 
@@ -30,7 +29,7 @@ class _BeverageScreenState extends State<BeverageScreen> {
         title: const Text('Beverages'),
         centerTitle: true,
         leading: const BackButton(),
-        actions: const [Icon(Icons.settings), SizedBox(width: 10)],
+        actions: const [Icon(Icons.filter_list), SizedBox(width: 10)],
       ),
       body: beverageProvider.isLoading
           ? const Center(child: CircularProgressIndicator())

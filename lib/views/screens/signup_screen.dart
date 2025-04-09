@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/view_model/auth_view_model.dart';
+import 'package:grocery_app/views/screens/home_screen.dart';
 import 'package:grocery_app/views/screens/login_screen.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -128,15 +131,31 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      String name = _nameController.text;
-                      String email = _emailController.text;
-                      String password = _passwordController.text;
+                    onPressed: () async {
+                      final name = _nameController.text.trim();
+                      final email = _emailController.text.trim();
+                      final password = _passwordController.text.trim();
 
-                      // Example of handling the form submission
                       print("Name: $name");
                       print("Email: $email");
                       print("Password: $password");
+
+                      final authVM =
+                          Provider.of<AuthViewModel>(context, listen: false);
+                      await authVM.signUp(email, password, name);
+
+                      if (authVM.user != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text("Signup failed. Please try again.")),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(83, 177, 117, 1),

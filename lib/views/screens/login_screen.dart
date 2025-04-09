@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/view_model/auth_view_model.dart';
 import 'package:grocery_app/views/screens/home_screen.dart';
 import 'package:grocery_app/views/screens/signup_screen.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -105,18 +108,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return HomeScreen();
-                      }));
+                    onPressed: () async {
+                      final email = _emailController.text.trim();
+                      final password = _passwordController.text.trim();
 
-                      String email = _emailController.text;
-                      String password = _passwordController.text;
+                      final authVM =
+                          Provider.of<AuthViewModel>(context, listen: false);
+                      await authVM.login(email, password);
 
-                      // Example of handling the form submission
-                      print("Email: $email");
-                      print("Password: $password");
+                      if (authVM.user != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text("Login failed. Please try again.")),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(83, 177, 117, 1),
