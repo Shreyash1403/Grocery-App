@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/services/upload_explore_data.dart';
+import 'package:grocery_app/view_model/cart_view_model.dart';
 import 'package:grocery_app/view_model/explore_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -80,7 +83,29 @@ class _BeverageScreenState extends State<BeverageScreen> {
                                 child: IconButton(
                                   icon: const Icon(Icons.add,
                                       color: Colors.white),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    final cartProvider =
+                                        Provider.of<CartViewModel>(context,
+                                            listen: false);
+                                    final userId =
+                                        FirebaseAuth.instance.currentUser!.uid;
+
+                                    await cartProvider.addToCart(
+                                      userId,
+                                      CartItem(
+                                        id: item.id,
+                                        name: item.name,
+                                        imageUrl: item.imageUrl,
+                                        price: item.price,
+                                        volume: item.volume,
+                                      ),
+                                    );
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('Added to cart')),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
